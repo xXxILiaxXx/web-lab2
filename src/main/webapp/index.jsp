@@ -10,42 +10,8 @@
     function setXValue(x) {
         document.getElementById("xValue").value = x;
     }
-    // принимаются и устанавливаются r
-    // если r уже стоит то удаляется
     function setRValue(r) {
-        let rVar = parseInt(r)
-        const rValue2 = document.getElementById("rValue2").value;
-        const rValue3 = document.getElementById("rValue3").value;
-        const rValue4 = document.getElementById("rValue4").value;
-        const rValue5 = document.getElementById("rValue5").value;
-        if (rVar === 2) {
-            if (rValue2 === "") {
-                document.getElementById("rValue2").value = r;
-            } else {
-                document.getElementById("rValue2").value = "";
-            }
-        }
-        if (rVar === 3) {
-            if (rValue3 === "") {
-                document.getElementById("rValue3").value = r;
-            } else {
-                document.getElementById("rValue3").value = "";
-            }
-        }
-        if (rVar === 4) {
-            if (rValue4 === "") {
-                document.getElementById("rValue4").value = r;
-            } else {
-                document.getElementById("rValue4").value = "";
-            }
-        }
-        if (rVar === 5) {
-            if (rValue5 === "") {
-                document.getElementById("rValue5").value = r;
-            } else {
-                document.getElementById("rValue5").value = "";
-            }
-        }
+        document.getElementById("rValue").value = r;
     }
 </script>
 <script src="js/validate.js"></script>
@@ -74,8 +40,17 @@
                         <form action="javascript:void(0);" onsubmit="processForm();"> <%-- закрепить форму по верху а не по центру --%>
 
                             <div>
-                                <label for="x">Введите значение X (от -3 до 5):</label>
-                                <input type="text" name="x" id="x" required>
+                                <label>Введите значение X:</label>
+                                <button type="button" name="x" class="xButton" data-x="-5" onclick="setXValue('-5')">-5</button>
+                                <button type="button" name="x" class="xButton" data-x="-4" onclick="setXValue('-4')">-4</button>
+                                <button type="button" name="x" class="xButton" data-x="-3" onclick="setXValue('-3')">-3</button>
+                                <button type="button" name="x" class="xButton" data-x="-2" onclick="setXValue('-2')">-2</button>
+                                <button type="button" name="x" class="xButton" data-x="-1" onclick="setXValue('-1')">-1</button>
+                                <button type="button" name="x" class="xButton" data-x="0" onclick="setXValue('0')">0</button>
+                                <button type="button" name="x" class="xButton" data-x="1" onclick="setXValue('1')">1</button>
+                                <button type="button" name="x" class="xButton" data-x="2" onclick="setXValue('2')">2</button>
+                                <button type="button" name="x" class="xButton" data-x="3" onclick="setXValue('3')">3</button>
+                                <input type="hidden" name="x" id="xValue" value="">
                             </div>
                             <div id="errorX" class="error"></div>
                             <div>
@@ -83,12 +58,17 @@
                                 <input type="text" name="y" id="y" required>
                             </div>
                             <div id="errorY" class="error"></div>
-                            <div>
-                                <label for="r">Введите значение R (от -3 до 5):</label>
-                                <input type="text" name="r" id="r" required>
-                            </div>
-                            <div id="errorR" class="error"></div>
-                            <div>
+
+                                <div>
+                                    <label>Введите значение R:</label>
+                                    <button type="button" name="r" class="rButton" data-r="1" onclick="setRValue('1')">1</button>
+                                    <button type="button" name="r" class="rButton" data-r="2" onclick="setRValue('2')">2</button>
+                                    <button type="button" name="r" class="rButton" data-r="3" onclick="setRValue('3')">3</button>
+                                    <button type="button" name="r" class="rButton" data-r="4" onclick="setRValue('4')">4</button>
+                                    <button type="button" name="r" class="rButton" data-r="5" onclick="setRValue('5')">5</button>
+                                    <input type="hidden" name="r" id="rValue" value="">
+                                </div>
+                                <div id="errorR" class="error"></div>
                                 <input type="submit" value="Проверить">
 
 

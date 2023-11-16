@@ -1,10 +1,10 @@
 // Функция, получающая значения X, Y, R из формы на index.jsp
 function getFormValues() {
-    let xValue = document.getElementById("x").value;
+    let xValue = document.getElementById("xValue").value;
     xValue = xValue.replace(',', '.');
     let yValue = document.getElementById("y").value;
     yValue = yValue.replace(',', '.');
-    let rValue = document.getElementById("r").value;
+    let rValue = document.getElementById("rValue").value;
     rValue = rValue.replace(',', '.');
 
     return {x: xValue, y: yValue, r: rValue};
@@ -21,8 +21,8 @@ function validateForm(xValue, yValue, rValue) {
     errorY.textContent = "";
     errorR.textContent = "";
 
-    if (isNaN(xValue) || xValue < -3 || xValue > 5) {
-        errorX.textContent = "Введите корректное значение X (от -3 до 5).";
+    if (isNaN(xValue) || xValue < -5 || xValue > 3) {
+        errorX.textContent = "Введите корректное значение X (от -5 до 3).";
         return false;
     }
 
@@ -32,8 +32,8 @@ function validateForm(xValue, yValue, rValue) {
     }
 
 
-    if (isNaN(rValue) || rValue < -3 || rValue > 5) {
-        errorR.textContent = "Введите корректное значение R (от -3 до 5).";
+    if (isNaN(rValue) || rValue < 1 || rValue > 5) {
+        errorR.textContent = "Введите корректное значение R (от 1 до 5).";
         return false;
     }
     return true;
@@ -52,7 +52,7 @@ function submitForm(xValue, yValue, rValue, isCanvas) {
     // Создаем XMLHttpRequest объект
     let xhr = new XMLHttpRequest();
 
-    xhr.open("GET", url, true);
+    xhr.open("POST", url, true);
 
     xhr.onload = function () {
         if (xhr.status === 200) {

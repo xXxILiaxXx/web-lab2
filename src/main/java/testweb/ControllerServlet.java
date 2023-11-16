@@ -18,7 +18,7 @@ public class ControllerServlet extends HttpServlet {
      * @param response - ответ клиенту
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String x = request.getParameter("x");
         String y = request.getParameter("y");
         String[] rArray = request.getParameterValues("r");
@@ -46,7 +46,7 @@ public class ControllerServlet extends HttpServlet {
     public boolean checkX(String x) {
         try {
             BigDecimal xValue = new BigDecimal(x);
-            return xValue.compareTo(BigDecimal.valueOf(-3)) >= 0 && xValue.compareTo(BigDecimal.valueOf(5)) <= 0;
+            return xValue.compareTo(BigDecimal.valueOf(-5)) >= 0 && xValue.compareTo(BigDecimal.valueOf(3)) <= 0;
         } catch (NumberFormatException e) {
             return false;
         }
@@ -66,7 +66,7 @@ public class ControllerServlet extends HttpServlet {
     public boolean checkR(String r) {
         try {
             BigDecimal rValue = new BigDecimal(r);
-            return rValue.compareTo(BigDecimal.valueOf(-3)) >= 0 && rValue.compareTo(BigDecimal.valueOf(5)) <= 0;
+            return rValue.compareTo(BigDecimal.valueOf(1)) >= 0 && rValue.compareTo(BigDecimal.valueOf(5)) <= 0;
         } catch (NumberFormatException e) {
             return false;
         }
