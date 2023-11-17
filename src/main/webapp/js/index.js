@@ -70,10 +70,10 @@ function dot(result) {
 
     rArray.forEach(function (r) {
         if (r !== "") {
-            // console.log("функция dot " + x, y, r);
+             //console.log("функция dot " + x, y, r);
             let xValue = x / r * rSplit + xAxis - 2; // получили координату в пикселях относительно левого верхнего угла канваса
             let yValue = - (y / r * rSplit - yAxis + 2);
-            // console.log("функция dot координаты в пикселях ", xValue, yValue);
+             //console.log("функция dot координаты в пикселях ", xValue, yValue);
 
             ctx.beginPath();
             ctx.fillStyle = "red"
@@ -99,15 +99,15 @@ function dotSend() {
 }
 // функция инициализирует r
 function rInitialize() {
+    let r1 = document.getElementById("rValue1").value;
     let r2 = document.getElementById("rValue2").value;
     let r3 = document.getElementById("rValue3").value;
     let r4 = document.getElementById("rValue4").value;
     let r5 = document.getElementById("rValue5").value;
     // добавляем все r в массив
-    rArray = [r2, r3, r4, r5];
+    rArray = [r1, r2, r3, r4, r5];
     console.log(rArray);
 }
-
 // функция обновляет канвас
 function clearCanvas() {
     ctx.clearRect(0, 0, canvasPlotWidth, canvasPlotHeight);
@@ -134,9 +134,9 @@ function axis() {
 function circle() {
     ctx.beginPath();
 
-    ctx.arc(xAxis, yAxis, radius, 0, Math.PI/2);
+    ctx.arc(xAxis, yAxis, radius / 2, 0, Math.PI/2);
     ctx.lineTo(xAxis, yAxis);
-    ctx.fillStyle = "rgba(68,128,112,0.47)";
+    ctx.fillStyle = "rgb(11,153,246)";
     ctx.fill();
 
     ctx.closePath();
@@ -149,15 +149,15 @@ function triangle() {
     let x1 = xAxis;
     let y1 = yAxis;
     let x2 = xAxis;
-    let y2 = yAxis - radius;
-    let x3 = xAxis + radius / 2;
+    let y2 = yAxis - radius / 2;
+    let x3 = xAxis - radius;
     let y3 = yAxis;
 
     ctx.moveTo(x1, y1);
     ctx.lineTo(x2, y2);
     ctx.lineTo(x3, y3);
 
-    ctx.fillStyle = "rgba(68,128,112,0.47)";
+    ctx.fillStyle = "rgb(21,149,237)";
     ctx.fill();
     ctx.closePath();
 }
@@ -165,12 +165,12 @@ function triangle() {
 // Квадрат
 function square() {
     ctx.beginPath();
-    let x1 = xAxis - radius / 2;
+    let x1 = xAxis - radius ;
     let y1 = yAxis;
-    let x2 = xAxis - radius / 2;
-    let y2 = yAxis - radius;
+    let x2 = xAxis - radius ;
+    let y2 = yAxis + radius;
     let x3 = xAxis;
-    let y3 = yAxis - radius;
+    let y3 = yAxis + radius;
     let x4 = xAxis;
     let y4 = yAxis;
 
@@ -179,7 +179,7 @@ function square() {
     ctx.lineTo(x3, y3);
     ctx.lineTo(x4, y4)
 
-    ctx.fillStyle = "rgba(68,128,112,0.47)";
+    ctx.fillStyle = "rgb(21,149,237)";
     ctx.fill();
     ctx.closePath();
 }
