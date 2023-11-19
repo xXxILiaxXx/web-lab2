@@ -13,7 +13,7 @@ import java.util.Arrays;
 @WebServlet("/controller")
 public class ControllerServlet extends HttpServlet {
     /**
-     * Обрабатывает GET-запросы
+     * Обрабатывает POST-запросы
      * @param request - объект от клиента
      * @param response - ответ клиенту
      */

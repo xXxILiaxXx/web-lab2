@@ -23,10 +23,17 @@ public class AreaCheckServlet extends HttpServlet {
         String y = request.getParameter("y");
         String r = request.getParameter("r");
 
+        BigDecimal xValue, yValue, rValue;
 
-        BigDecimal xValue = new BigDecimal(x);
-        BigDecimal yValue = new BigDecimal(y);
-        BigDecimal rValue = new BigDecimal(r);
+        try {
+            xValue = new BigDecimal(x);
+            yValue = new BigDecimal(y);
+            rValue = new BigDecimal(r);
+        } catch (NumberFormatException e) {
+            // Обработка ошибки, например, отправка клиенту сообщения об ошибке
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid parameter values");
+            return;
+        }
 
         ServletContext servletContext = getServletContext();
         List<CheckResult> resultList = (List<CheckResult>) servletContext.getAttribute("resultList");
@@ -67,35 +74,21 @@ public class AreaCheckServlet extends HttpServlet {
     }
 
     private boolean checkCircle(BigDecimal x, BigDecimal y, BigDecimal r) {
-        return
-                // x >= 0
-                x.compareTo(BigDecimal.ZERO) >= 0
-                        // y <= 0
-                        && y.compareTo(BigDecimal.ZERO) <= 0
-                        // x * x + y * y <= r * r
-                        && x.pow(2).add(y.pow(2)).compareTo(r.pow(2)) <= 0;
+        return x.compareTo(BigDecimal.ZERO) >= 0
+                && y.compareTo(BigDecimal.ZERO) <= 0
+                && x.pow(2).add(y.pow(2)).compareTo(r.pow(2)) <= 0;
     }
 
     private boolean checkRectangle(BigDecimal x, BigDecimal y, BigDecimal r) {
-
-        return
-                //x <= 0
-                x.compareTo(BigDecimal.ZERO) <= 0
-                        // x >= -r/2
-                        && x.compareTo(r.divide(BigDecimal.valueOf(2))) >= 0
-                        // y <= r
-                        && y.compareTo(r) <= 0
-                        // y >= 0
-                        && y.compareTo(BigDecimal.ZERO) >= 0;
+        return x.compareTo(BigDecimal.ZERO) <= 0
+                && x.compareTo(r.divide(BigDecimal.valueOf(2))) >= 0
+                && y.compareTo(r) <= 0
+                && y.compareTo(BigDecimal.ZERO) >= 0;
     }
 
     private boolean checkTriangle(BigDecimal x, BigDecimal y, BigDecimal r) {
-        return
-                // x >= 0
-                x.compareTo(BigDecimal.ZERO) >= 0
-                        // y >= 0
-                        && y.compareTo(BigDecimal.ZERO) >= 0
-                        // y <= -2*x + r
-                        && y.compareTo(BigDecimal.valueOf(-2).multiply(x).add(r)) <= 0;
+        return x.compareTo(BigDecimal.ZERO) >= 0
+                && y.compareTo(BigDecimal.ZERO) >= 0
+                && y.compareTo(BigDecimal.valueOf(-2).multiply(x).add(r)) <= 0;
     }
 }
