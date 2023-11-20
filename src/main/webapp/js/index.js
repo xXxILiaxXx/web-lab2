@@ -12,25 +12,38 @@ const yAxis = canvasPlotHeight / 2;
 
 const radius = 200;
 
-let rValue; // Теперь у нас есть одна переменная для R
+
 
 
 function checkPoint(event) {
     const x = event.offsetX - xAxis;
     const y = -(event.offsetY - yAxis);
+    let rValue = document.getElementById("rValue").value; // Теперь у нас есть одна переменная для R
 
-    rInitialize();
+    console.log(rValue);
+    let errorR = document.getElementById("errorR");
+
+    if (rValue === "") {
+        console.log("pusto")
+        errorR.textContent = "Введите корректное значение R (от 1 до 5)."; // доработать ошибку
+    } else {
+        errorR.textContent = ""; // доработать ошибку
+
+    }
+
+
+
+    // rInitializetion(); // Убедитесь, что rValue обновляется перед использованием
     const rSplit = 200;
 
     let xValue = x / rSplit;
     let yValue = y / rSplit;
 
-
-    submitForm(xValue * rValue, yValue * rValue, rValue * rValue, true);
+    submitForm(xValue * rValue, yValue * rValue, rValue, true);
 }
 
 
-function rInitialize() {
+function rInitializetion() {
     const rawRValue = document.getElementById("rValue").value;
     rValue = parseFloat(rawRValue); // преобразуем строку в число
 }
@@ -40,6 +53,7 @@ function clearCanvas() {
     axis();
     zone();
     r();
+
 }
 
 function axis() {
@@ -157,7 +171,7 @@ function dot(result) {
     const rSplit = 200; // один r это 200 px на полотне
     let x = result.x;
     let y = result.y;
-
+    rInitializetion();
     if (rValue !== "") {
         let xValue = x / rValue * rSplit + xAxis - 2;
         let yValue = -(y / rValue * rSplit - yAxis + 2);
@@ -168,3 +182,8 @@ function dot(result) {
         ctx.closePath();
     }
 }
+
+// Добавьте это в конец вашего index.js
+window.onload = function() {
+    clearCanvas();
+};

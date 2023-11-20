@@ -6,17 +6,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.util.Arrays;
 
 @WebServlet("/controller")
 public class ControllerServlet extends HttpServlet {
-    /**
-     * Обрабатывает POST-запросы
-     * @param request - объект от клиента
-     * @param response - ответ клиенту
-     */
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String x = request.getParameter("x");
@@ -38,7 +32,7 @@ public class ControllerServlet extends HttpServlet {
             request.getRequestDispatcher("/AreaCheckServlet").forward(request, response);
         } else {
             // если нет, то перенаправляется обратно
-            request.getRequestDispatcher("/index.jsp");
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
         }
     }
 

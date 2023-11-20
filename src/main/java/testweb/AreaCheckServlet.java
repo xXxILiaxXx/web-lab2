@@ -17,6 +17,7 @@ import java.util.List;
 
 @WebServlet("/AreaCheckServlet")
 public class AreaCheckServlet extends HttpServlet {
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String x = request.getParameter("x");
@@ -42,7 +43,7 @@ public class AreaCheckServlet extends HttpServlet {
             resultList = new ArrayList<>();
         }
 
-        CheckResult result = null;
+        CheckResult result;
 
         boolean isInside = checkCircle(xValue, yValue, rValue)
                 || checkRectangle(xValue, yValue, rValue)
@@ -73,21 +74,21 @@ public class AreaCheckServlet extends HttpServlet {
         response.getWriter().write(json);
     }
 
-    private boolean checkCircle(BigDecimal x, BigDecimal y, BigDecimal r) {
-        return x.compareTo(BigDecimal.ZERO) >= 0
+    private boolean checkCircle(BigDecimal x, BigDecimal y, BigDecimal r) { //круг
+        return x.compareTo(BigDecimal.ZERO) <= 0
                 && y.compareTo(BigDecimal.ZERO) <= 0
                 && x.pow(2).add(y.pow(2)).compareTo(r.pow(2)) <= 0;
     }
 
-    private boolean checkRectangle(BigDecimal x, BigDecimal y, BigDecimal r) {
+    private boolean checkRectangle(BigDecimal x, BigDecimal y, BigDecimal r) { //квадрат
         return x.compareTo(BigDecimal.ZERO) <= 0
                 && x.compareTo(r.divide(BigDecimal.valueOf(2))) >= 0
                 && y.compareTo(r) <= 0
                 && y.compareTo(BigDecimal.ZERO) >= 0;
     }
 
-    private boolean checkTriangle(BigDecimal x, BigDecimal y, BigDecimal r) {
-        return x.compareTo(BigDecimal.ZERO) >= 0
+    private boolean checkTriangle(BigDecimal x, BigDecimal y, BigDecimal r) {  //треугольник
+        return x.compareTo(BigDecimal.ZERO) <= 0
                 && y.compareTo(BigDecimal.ZERO) >= 0
                 && y.compareTo(BigDecimal.valueOf(-2).multiply(x).add(r)) <= 0;
     }
