@@ -61,47 +61,38 @@ public class AreaCheckServlet extends HttpServlet {
         response.getWriter().write(json);
     }
 
-    private boolean checkCircle(BigDecimal x, BigDecimal y, BigDecimal r) {
-        // Учитываем масштабирование координат
-        x = x.multiply(BigDecimal.valueOf(200));
-        y = y.multiply(BigDecimal.valueOf(200));
 
+
+    private boolean checkCircle(BigDecimal x, BigDecimal y, BigDecimal r) { // круг
+        BigDecimal scaledRadius = r.divide(BigDecimal.valueOf(2)); // новый радиус, уменьшенный в 2 раза
         return
                 // x >= 0
                 x.compareTo(BigDecimal.ZERO) >= 0
                         // y <= 0
                         && y.compareTo(BigDecimal.ZERO) <= 0
-                        // x * x + y * y <= r * r
-                        && x.pow(2).add(y.pow(2)).compareTo(r.pow(2)) <= 0;
+                        // x * x + y * y <= scaledRadius * scaledRadius
+                        && x.pow(2).add(y.pow(2)).compareTo(scaledRadius.pow(2)) <= 0;
     }
-
-    private boolean checkRectangle(BigDecimal x, BigDecimal y, BigDecimal r) {
-        // Учитываем масштабирование координат
-        x = x.multiply(BigDecimal.valueOf(200));
-        y = y.multiply(BigDecimal.valueOf(200));
-
+    private boolean checkRectangle(BigDecimal x, BigDecimal y, BigDecimal r) { // квадрат
         return
                 // x <= 0
                 x.compareTo(BigDecimal.ZERO) <= 0
-                        // x <= -r
-                        && x.compareTo(r.divide(BigDecimal.valueOf(2))) <= 0
-                        // y <= r
-                        && y.compareTo(r) <= 0
                         // y <= 0
-                        && y.compareTo(BigDecimal.ZERO) <= 0;
+                        && y.compareTo(BigDecimal.ZERO) <= 0
+                        // x >= -r
+                        && x.compareTo(r.negate()) >= 0
+                        // y >= -r
+                        && y.compareTo(r.negate()) >= 0;
     }
 
-    private boolean checkTriangle(BigDecimal x, BigDecimal y, BigDecimal r) {
-        // Учитываем масштабирование координат
-        x = x.multiply(BigDecimal.valueOf(200));
-        y = y.multiply(BigDecimal.valueOf(200));
-
+    private boolean checkTriangle(BigDecimal x, BigDecimal y, BigDecimal r) { ///треугольник
         return
                 // x <= 0
-                x.compareTo(BigDecimal.ZERO) >= 0
+                x.compareTo(BigDecimal.ZERO) <= 0
                         // y >= 0
                         && y.compareTo(BigDecimal.ZERO) >= 0
-                        // y <= -2*x + r
-                        && y.compareTo(BigDecimal.valueOf(-2).multiply(x).add(r)) <= 0;
+                        // y <= 2*x + r
+                        && y.compareTo(BigDecimal.valueOf(2).multiply(x).add(r)) <= 0;
     }
+
 }
