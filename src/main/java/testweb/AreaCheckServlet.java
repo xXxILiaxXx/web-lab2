@@ -24,39 +24,26 @@ public class AreaCheckServlet extends HttpServlet {
         String y = request.getParameter("y");
         String r = request.getParameter("r");
 
-        BigDecimal xValue, yValue, rValue;
-
-        try {
-            xValue = new BigDecimal(x);
-            yValue = new BigDecimal(y);
-            rValue = new BigDecimal(r);
-        } catch (NumberFormatException e) {
-            // Обработка ошибки, например, отправка клиенту сообщения об ошибке
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid parameter values");
-            return;
-        }
+        BigDecimal xValue = new BigDecimal(x);
+        BigDecimal yValue = new BigDecimal(y);
+        BigDecimal rValue = new BigDecimal(r);
 
         ServletContext servletContext = getServletContext();
         List<CheckResult> resultList = (List<CheckResult>) servletContext.getAttribute("resultList");
 
         if (resultList == null) {
             resultList = new ArrayList<>();
+            servletContext.setAttribute("resultList", resultList);
         }
-
-        CheckResult result;
 
         boolean isInside = checkCircle(xValue, yValue, rValue)
                 || checkRectangle(xValue, yValue, rValue)
                 || checkTriangle(xValue, yValue, rValue);
-
-        result = new CheckResult(xValue, yValue, rValue, isInside);
-
+        CheckResult result = new CheckResult(xValue, yValue, rValue, isInside);
         resultList.add(result);
-
         sendJson(result, response);
-
-        servletContext.setAttribute("resultList", resultList);
     }
+
 
     private JsonObject writeJson(CheckResult result) {
         JsonObject jsonResponse = new JsonObject();
@@ -74,22 +61,47 @@ public class AreaCheckServlet extends HttpServlet {
         response.getWriter().write(json);
     }
 
-    private boolean checkCircle(BigDecimal x, BigDecimal y, BigDecimal r) { //круг
-        return x.compareTo(BigDecimal.ZERO) <= 0
-                && y.compareTo(BigDecimal.ZERO) <= 0
-                && x.pow(2).add(y.pow(2)).compareTo(r.pow(2)) <= 0;
+    private boolean checkCircle(BigDecimal x, BigDecimal y, BigDecimal r) {
+        // Учитываем масштабирование координат
+        x = x.multiply(BigDecimal.valueOf(200));
+        y = y.multiply(BigDecimal.valueOf(200));
+
+        return
+                // x >= 0
+                x.compareTo(BigDecimal.ZERO) >= 0
+                        // y <= 0
+                        && y.compareTo(BigDecimal.ZERO) <= 0
+                        // x * x + y * y <= r * r
+                        && x.pow(2).add(y.pow(2)).compareTo(r.pow(2)) <= 0;
     }
 
-    private boolean checkRectangle(BigDecimal x, BigDecimal y, BigDecimal r) { //квадрат
-        return x.compareTo(BigDecimal.ZERO) <= 0
-                && x.compareTo(r.divide(BigDecimal.valueOf(2))) >= 0
-                && y.compareTo(r) <= 0
-                && y.compareTo(BigDecimal.ZERO) >= 0;
+    private boolean checkRectangle(BigDecimal x, BigDecimal y, BigDecimal r) {
+        // Учитываем масштабирование координат
+        x = x.multiply(BigDecimal.valueOf(200));
+        y = y.multiply(BigDecimal.valueOf(200));
+
+        return
+                // x <= 0
+                x.compareTo(BigDecimal.ZERO) <= 0
+                        // x <= -r
+                        && x.compareTo(r.divide(BigDecimal.valueOf(2))) <= 0
+                        // y <= r
+                        && y.compareTo(r) <= 0
+                        // y <= 0
+                        && y.compareTo(BigDecimal.ZERO) <= 0;
     }
 
-    private boolean checkTriangle(BigDecimal x, BigDecimal y, BigDecimal r) {  //треугольник
-        return x.compareTo(BigDecimal.ZERO) <= 0
-                && y.compareTo(BigDecimal.ZERO) >= 0
-                && y.compareTo(BigDecimal.valueOf(-2).multiply(x).add(r)) <= 0;
+    private boolean checkTriangle(BigDecimal x, BigDecimal y, BigDecimal r) {
+        // Учитываем масштабирование координат
+        x = x.multiply(BigDecimal.valueOf(200));
+        y = y.multiply(BigDecimal.valueOf(200));
+
+        return
+                // x <= 0
+                x.compareTo(BigDecimal.ZERO) >= 0
+                        // y >= 0
+                        && y.compareTo(BigDecimal.ZERO) >= 0
+                        // y <= -2*x + r
+                        && y.compareTo(BigDecimal.valueOf(-2).multiply(x).add(r)) <= 0;
     }
 }

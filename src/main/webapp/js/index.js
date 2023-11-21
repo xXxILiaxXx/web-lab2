@@ -24,7 +24,7 @@ function checkPoint(event) {
     let errorR = document.getElementById("errorR");
 
     if (rValue === "") {
-        console.log("pusto")
+        //console.log("pusto")
         errorR.textContent = "Введите корректное значение R (от 1 до 5)."; // доработать ошибку
     } else {
         errorR.textContent = ""; // доработать ошибку
@@ -44,6 +44,7 @@ function checkPoint(event) {
 
 
 function rInitializetion() {
+
     const rawRValue = document.getElementById("rValue").value;
     rValue = parseFloat(rawRValue); // преобразуем строку в число
 }
