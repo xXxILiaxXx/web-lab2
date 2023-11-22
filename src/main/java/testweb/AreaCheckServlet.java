@@ -91,8 +91,8 @@ public class AreaCheckServlet extends HttpServlet {
                 x.compareTo(BigDecimal.ZERO) <= 0
                         // y >= 0
                         && y.compareTo(BigDecimal.ZERO) >= 0
-                        // y <= 2*x + r
-                        && y.compareTo(BigDecimal.valueOf(2).multiply(x).add(r)) <= 0;
+                        // y <= x/2 + r/2
+                        && y.compareTo(x.divide(BigDecimal.valueOf(2)).add(r.divide(BigDecimal.valueOf(2)))) <= 0;
     }
 
 }
