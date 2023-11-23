@@ -61,15 +61,16 @@
 
                                 <div>
                                     <label>Введите значение R:</label>
-                                    <button type="button" name="r" class="rButton" data-r="1" onclick="setRValue('1')">1</button>
-                                    <button type="button" name="r" class="rButton" data-r="2" onclick="setRValue('2')">2</button>
-                                    <button type="button" name="r" class="rButton" data-r="3" onclick="setRValue('3')">3</button>
-                                    <button type="button" name="r" class="rButton" data-r="4" onclick="setRValue('4')">4</button>
-                                    <button type="button" name="r" class="rButton" data-r="5" onclick="setRValue('5')">5</button>
+                                    <button type="button" name="r" class="rButton" data-r="1" onclick="setRValue('1');Initilze()">1</button>
+                                    <button type="button" name="r" class="rButton" data-r="2" onclick="setRValue('2');Initilze()">2</button>
+                                    <button type="button" name="r" class="rButton" data-r="3" onclick="setRValue('3');Initilze()">3</button>
+                                    <button type="button" name="r" class="rButton" data-r="4" onclick="setRValue('4');Initilze()">4</button>
+                                    <button type="button" name="r" class="rButton" data-r="5" onclick="setRValue('5'); Initilze()">5</button>
                                     <input type="hidden" name="r" id="rValue" value="">
                                 </div>
                                 <div id="errorR" class="error"></div>
                                 <input type="submit" value="Проверить">
+
 
 
 

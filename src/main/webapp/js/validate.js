@@ -40,7 +40,6 @@ function validateForm(xValue, yValue, rValue) {
 }
 
 function submitForm(xValue, yValue, rValue, isCanvas) {
-    console.log(xValue + " ", yValue + " ", rValue)
     let url;
     // Формируем URL с параметрами
     if (isCanvas) {
@@ -59,9 +58,7 @@ function submitForm(xValue, yValue, rValue, isCanvas) {
         if (xhr.status === 200) {
             console.log("исправлено");
             let responseText = xhr.responseText;
-            console.log(responseText)
             responseText = responseText.replace(/}{/g, '}\n{');
-            console.log(responseText)
             let jsonStrings = responseText.split('\n');
             let results = jsonStrings.map(json => JSON.parse(json));
             updateResultTable(results);
@@ -79,7 +76,7 @@ function submitForm(xValue, yValue, rValue, isCanvas) {
 function updateResultTable(results) {
     let resultTable = document.getElementById("resultTable");
     results.forEach(result => {
-
+        result.isInside = undefined;
         let newRow = resultTable.insertRow(1);
         let xCell = newRow.insertCell(0);
         let yCell = newRow.insertCell(1);
@@ -96,10 +93,10 @@ function updateResultTable(results) {
 // Главная функция, которая вызывает остальные функции и управляет процессом
 function processForm() {
     let {x, y, r} = getFormValues();
-    //console.log("processForm()");
+    console.log("processForm()");
 
     if (validateForm(x, y, r)) {
         submitForm(x, y, r, false);
-        //console.log("submit")
+        console.log("submit")
     }
 }

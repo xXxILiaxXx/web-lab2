@@ -166,7 +166,11 @@ function dotSend() {
         dot(result);
     });
 }
+function Initilze(){
+    clearCanvas();
+    dotSend();
 
+}
 // функция отрисовывает координаты
 function dot(result) {
     const rSplit = 200; // один r это 200 px на полотне
