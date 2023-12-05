@@ -29,6 +29,10 @@ public class AreaCheckServlet extends HttpServlet {
         BigDecimal rValue = new BigDecimal(r);
 
         ServletContext servletContext = getServletContext();
+
+        // Логирование для отслеживания
+        System.out.println("Trying to save result...");
+
         List<CheckResult> resultList = (List<CheckResult>) servletContext.getAttribute("resultList");
 
         if (resultList == null) {
@@ -42,8 +46,43 @@ public class AreaCheckServlet extends HttpServlet {
         CheckResult result = new CheckResult(xValue, yValue, rValue, isInside);
         resultList.add(result);
         sendJson(result, response);
+
+        // Добавляем результат в список для сохранения в контексте
+        saveResultInContext(result);
+
+        // Логирование для отслеживания
+        System.out.println("Result saved successfully.");
     }
 
+    private void saveResultInContext(CheckResult result) {
+        ServletContext servletContext = getServletContext();
+        List<String> results = (List<String>) servletContext.getAttribute("results");
+
+        if (results == null) {
+            results = new ArrayList<>();
+            servletContext.setAttribute("results", results);
+        }
+
+        // Преобразовываем результат в JSON-строку и добавляем в список
+        String resultJson = writeJson(result).toString();
+        results.add(resultJson);
+
+        // Логирование для отслеживания
+        System.out.println("Result added to the results list: " + resultJson);
+    }
+
+
+//    String result = String.format("{\"x\": \"%s\", \"y\": \"%s\", \"r\": \"%s\", \"isHit\": \"%s\", \"currentTime\": \"%s\", \"executionTime\": \"%s\"}", xValue, yValue, rValue, isHit, currentTime, executionMilliTime);
+//
+//            if(request.getParameter("storeContext").equals("true")) {
+//        ServletContext servletContext = getServletContext();
+//        List<String> results = (List<String>) servletContext.getAttribute("results");
+//        if (results == null) {
+//            results = new ArrayList<>();
+//            servletContext.setAttribute("results", results);
+//        }
+//        results.add(result);
+//    }
 
     private JsonObject writeJson(CheckResult result) {
         JsonObject jsonResponse = new JsonObject();
@@ -94,5 +133,4 @@ public class AreaCheckServlet extends HttpServlet {
                         // y <= x/2 + r/2
                         && y.compareTo(x.divide(BigDecimal.valueOf(2)).add(r.divide(BigDecimal.valueOf(2)))) <= 0;
     }
-
 }
