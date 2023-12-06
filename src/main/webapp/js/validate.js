@@ -9,7 +9,29 @@ function getFormValues() {
 
     return { x: xValue, y: yValue, r: rValue };
 }
+// Функция для выделения цветом кнопок X
+function highlightXButton(button) {
+    // Сбрасываем стиль у всех кнопок X
+    let xButtons = document.querySelectorAll('.xButton');
+    xButtons.forEach(function (btn) {
+        btn.style.backgroundColor = '';
+    });
 
+    // Устанавливаем цвет для выбранной кнопки X
+    button.style.backgroundColor = 'lightblue';
+}
+
+// Функция для выделения цветом кнопок R
+function highlightRButton(button) {
+    // Сбрасываем стиль у всех кнопок R
+    let rButtons = document.querySelectorAll('.rButton');
+    rButtons.forEach(function (btn) {
+        btn.style.backgroundColor = '';
+    });
+
+    // Устанавливаем цвет для выбранной кнопки R
+    button.style.backgroundColor = 'lightblue';
+}
 // Функция для валидации значений X, Y и R
 function validateForm(xValue, yValue, rValue) {
     let errorX = document.getElementById("errorX");
@@ -41,7 +63,7 @@ function validateForm(xValue, yValue, rValue) {
 function submitForm(xValue, yValue, rValue, isCanvas) {
     console.log(xValue + " ", yValue + " ", rValue);
     let url;
-    // Формируем URL с параметрами
+    // Формируем URL с параметрами testweb-1.0-SNAPSHOT
     if (isCanvas) {
         url = "/testweb-1.0-SNAPSHOT/AreaCheckServlet?x=" + xValue + "&y=" + yValue + "&r=" + rValue;
     } else {
@@ -101,11 +123,14 @@ function arraySave(results) {
 
     // сохраняем результаты в локальное хранилище
     saveResultsToLocalStorage();
+    updateResultTable();
+    submitForm();
+    getFormValues();
+    validateForm();
 
     clearCanvas();
     dotSend();
 }
-
 // функция отправляет результаты из resultsArray в функцию dot
 function dotSend() {
     resultsArray.forEach(function (result) {
@@ -120,7 +145,7 @@ function saveResultsToLocalStorage() {
 
 // функция загружает результаты из локального хранилища
 function loadResultsFromLocalStorage() {
-    const storedResults = localStorage.getItem('resultTable');
+    storedResults = localStorage.getItem('resultsArray');
     if (storedResults) {
         resultsArray = JSON.parse(storedResults);
     }
@@ -145,12 +170,7 @@ function dot(result) {
 
 
 
-// Загружаем результаты из localStorage при загрузке страницы
-window.onload = function() {
-    loadResultsFromLocalStorage();
-    clearCanvas();
-    dotSend();
-};
+
 
 function processForm() {
     // Вызовите необходимые функции здесь
@@ -161,3 +181,26 @@ function processForm() {
     return false;  // Предотвращение отправки формы
 }
 
+function clearTable() {
+    // Очистите таблицу результатов
+    let resultTable = document.getElementById("resultTable");
+    resultTable.innerHTML = "<tr><th>X</th><th>Y</th><th>R</th><th>Результат</th></tr>";
+
+    // Очистите локальное хранилище
+    resultsArray = [];
+    saveResultsToLocalStorage();
+
+    // Очистите канвас
+    clearCanvas();
+}
+
+// Загружаем результаты из localStorage при загрузке страницы
+window.onload = function() {
+    loadResultsFromLocalStorage();
+    clearCanvas();
+    dotSend();
+    updateResultTable(resultsArray);
+    submitForm();
+    getFormValues();
+    validateForm();
+}

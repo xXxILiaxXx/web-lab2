@@ -188,7 +188,42 @@ function dot(result) {
     }
 }
 
-// Добавьте это в конец вашего index.js
-window.onload = function() {
+// // Загружаем результаты из localStorage при загрузке страницы
+// window.onload = function () {
+//     loadResultsFromLocalStorage();
+//     clearCanvas();
+//     dotSend();
+// };
+//
+// // функция загружает результаты из локального хранилища
+// function loadResultsFromLocalStorage() {
+//     const storedResults = localStorage.getItem('resultsArray');
+//     if (storedResults) {
+//         resultsArray = JSON.parse(storedResults);
+//     }
+// }
+
+// функция сохраняет результаты в локальное хранилище
+function saveResultsToLocalStorage() {
+    localStorage.setItem('resultsArray', JSON.stringify(resultsArray));
+}
+
+// Добавлены функции для работы с локальным хранилищем
+function arraySave(results) {
+    results.forEach(function (result) {
+        resultsArray.push(result);
+    });
+
+    // сохраняем результаты в локальное хранилище
+    saveResultsToLocalStorage();
+    loadResultsFromLocalStorage();
     clearCanvas();
-};
+    dotSend();
+    updateResultTable();
+    submitForm();
+    getFormValues();
+    validateForm();
+    clearCanvas();
+    dotSend();
+}
+
