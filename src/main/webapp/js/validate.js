@@ -40,18 +40,12 @@ function validateForm(xValue, yValue, rValue) {
         isInvalid = true;
         //return false;
     }
-    if (isNumeric(rValue) || rValue < 1 || rValue > 5) {
+    if (!isNumeric(rValue) || rValue < 1 || rValue > 5) {
         errorR.textContent = "Введите корректное значение R (от 1 до 5).";
         isInvalid = true;
         //return false;
     }
     if(isInvalid) return false;
-    // for (let rValue of rValues) {
-    //     if (!isNumeric(rValue) || rValue < 1 || rValue > 5) {
-    //         errorR.textContent = "Введите корректное значение R (от 1 до 5).";
-    //         return false;
-    //     }
-    // }
 
     return true;
 }
