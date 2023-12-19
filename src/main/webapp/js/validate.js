@@ -8,30 +8,10 @@ function getFormValues() {
     rValue = rValue.replace(',', '.');
 
     return { x: xValue, y: yValue, r: rValue };
-}
-// Функция для выделения цветом кнопок X
-function highlightXButton(button) {
-    // Сбрасываем стиль у всех кнопок X
-    let xButtons = document.querySelectorAll('.xButton');
-    xButtons.forEach(function (btn) {
-        btn.style.backgroundColor = '';
-    });
 
-    // Устанавливаем цвет для выбранной кнопки X
-    button.style.backgroundColor = 'lightblue';
 }
 
-// Функция для выделения цветом кнопок R
-function highlightRButton(button) {
-    // Сбрасываем стиль у всех кнопок R
-    let rButtons = document.querySelectorAll('.rButton');
-    rButtons.forEach(function (btn) {
-        btn.style.backgroundColor = '';
-    });
-
-    // Устанавливаем цвет для выбранной кнопки R
-    button.style.backgroundColor = 'lightblue';
-}
+function isNumeric(str) {return !isNaN(str) && !isNaN(parseFloat(str))}
 // Функция для валидации значений X, Y и R
 function validateForm(xValue, yValue, rValue) {
     let errorX = document.getElementById("errorX");
@@ -43,20 +23,36 @@ function validateForm(xValue, yValue, rValue) {
     errorY.textContent = "";
     errorR.textContent = "";
 
-    if (isNaN(xValue) || xValue < -5 || xValue > 3) {
+    console.log("xValue:", xValue);
+    console.log("yValue:", yValue);
+    console.log("rValues:", rValue);
+
+    let isInvalid = false;
+
+    if (!isNumeric(xValue) || xValue < -5 || xValue > 3) {
         errorX.textContent = "Введите корректное значение X (от -5 до 3).";
-        return false;
+        isInvalid = true;
+        //return false;
     }
 
-    if (isNaN(yValue) || yValue < -3 || yValue > 5) {
+    if (!isNumeric(yValue) || yValue < -3 || yValue > 5) {
         errorY.textContent = "Введите корректное значение Y (от -3 до 5).";
-        return false;
+        isInvalid = true;
+        //return false;
     }
-
-    if (isNaN(rValue) || rValue < 1 || rValue > 5) {
+    if (isNumeric(rValue) || rValue < 1 || rValue > 5) {
         errorR.textContent = "Введите корректное значение R (от 1 до 5).";
-        return false;
+        isInvalid = true;
+        //return false;
     }
+    if(isInvalid) return false;
+    // for (let rValue of rValues) {
+    //     if (!isNumeric(rValue) || rValue < 1 || rValue > 5) {
+    //         errorR.textContent = "Введите корректное значение R (от 1 до 5).";
+    //         return false;
+    //     }
+    // }
+
     return true;
 }
 
@@ -170,11 +166,10 @@ function dot(result) {
 
 
 
-
-
 function processForm() {
     // Вызовите необходимые функции здесь
     let formValues = getFormValues();
+    console.log("Values before validation:", formValues);
     if (validateForm(formValues.x, formValues.y, formValues.r)) {
         submitForm(formValues.x, formValues.y, formValues.r, /* значение isCanvas */);
     }
@@ -200,7 +195,33 @@ window.onload = function() {
     clearCanvas();
     dotSend();
     updateResultTable(resultsArray);
-    submitForm();
-    getFormValues();
-    validateForm();
+    // submitForm();
+    // getFormValues();
+    // validateForm();
+}
+
+
+
+// Функция для выделения цветом кнопок X
+function highlightXButton(button) {
+    // Сбрасываем стиль у всех кнопок X
+    let xButtons = document.querySelectorAll('.xButton');
+    xButtons.forEach(function (btn) {
+        btn.style.backgroundColor = '';
+    });
+
+    // Устанавливаем цвет для выбранной кнопки X
+    button.style.backgroundColor = 'lightblue';
+}
+
+// Функция для выделения цветом кнопок R
+function highlightRButton(button) {
+    // Сбрасываем стиль у всех кнопок R
+    let rButtons = document.querySelectorAll('.rButton');
+    rButtons.forEach(function (btn) {
+        btn.style.backgroundColor = '';
+    });
+
+    // Устанавливаем цвет для выбранной кнопки R
+    button.style.backgroundColor = 'lightblue';
 }
